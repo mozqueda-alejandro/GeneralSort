@@ -23,7 +23,7 @@ Test the speed of each algorithm for sorting the data.
 Also, test the speed of each algorithm when the data is already sorted (for the same input data). 
 
 The following output should be provided for an average of 10 sorts of **each algorithm and input size**:
--	the CPU time (use the same machine)
+-	the CPU time (use the same machine);.;.....
 -	the number of comparisons
 -	the number of swaps 
 

@@ -12,7 +12,7 @@ void Selection<ItemType>::initVars() {
 }
 
 template <class ItemType>
-void Selection<ItemType>::sort(ItemType unsorted[], int unsortedLen) {
+void Selection<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {
     initVars();
     ItemType max;
     int maxIndex, last, index;
@@ -23,8 +23,8 @@ void Selection<ItemType>::sort(ItemType unsorted[], int unsortedLen) {
             if (unsorted[index] > max) {
                 max = unsorted[index];
                 maxIndex = index;
-                ++comparisons;
             }
+            ++comparisons;
         }
         std::swap(unsorted[last], unsorted[maxIndex]);
         ++swaps;

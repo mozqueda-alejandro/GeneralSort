@@ -9,12 +9,12 @@ template <class ItemType>
 class Selection : public SortInterface<ItemType> {
     int comparisons;
     int swaps;
+    void initVars();
 public:
     Selection();
-    void sort(ItemType unsorted[], int unsortedLen) override;
+    void sort(int unsortedLen, ItemType unsorted[]) override;
     std::tuple<int, int> returnStats() const override;
     std::string getSortName() const override;
-    void initVars();
 };
 
 #include "Selection.cpp"

@@ -7,7 +7,7 @@
 #include <vector>
 
 class FileManager{
-    int numberGenerator(int low = 0, int high = 1e+6 + 1);
+    int numberGenerator(int low = 0, int high = 1e+1 + 1);
 public:
     FileManager() = default;
     void newRandCSV(int arrLen, int arr[] = nullptr);

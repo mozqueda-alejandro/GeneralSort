@@ -13,13 +13,16 @@
 
 #include "Selection.h"
 #include "Insertion.h"
+// #include "Bubble.h"
+#include "Merge.h"
 #include "Quick.h"
+// #include "Radix.h"
 
 namespace EnumData {
     enum Data {
-        DATA_SIZE_1 = 100,
-        DATA_SIZE_2 = 200,
-        DATA_SIZE_3 = 300,
+        DATA_SIZE_1 = 1000,
+        DATA_SIZE_2 = 4,
+        DATA_SIZE_3 = 8,
     };
     static const Data All[] = { DATA_SIZE_1, DATA_SIZE_2, DATA_SIZE_3 };
 }

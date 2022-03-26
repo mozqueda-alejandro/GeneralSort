@@ -12,6 +12,9 @@ class Selection : public SortInterface<ItemType> {
 public:
     Selection();
     void sort(ItemType unsorted[], int unsortedLen) override;
+    std::tuple<int, int> returnStats() const override;
+    std::string getSortName() const override;
+    void initVars();
 };
 
 #include "Selection.cpp"

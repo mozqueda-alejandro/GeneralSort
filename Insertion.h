@@ -11,7 +11,7 @@ class Insertion{// : public SortInterface<ItemType> {
     int swaps;
 public:
     Insertion();
-    void sort(ItemType unsorted[], int unsortedLen);
+    void sort(ItemType unsorted[], int unsortedLen) override;
 };
 
 #endif //INSERTION_

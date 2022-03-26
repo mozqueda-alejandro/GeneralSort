@@ -1,25 +1,22 @@
 #include <iostream>
+#include <time.h>
 #include "SortTest.h"
-#include "Selection.h"
-#include "Insertion.h"
-#include "Quick.h"
-
 
 int main() {
-    Selection<int> sel;
-    Insertion<int> ins;
-    // Bubble<int> bub;
-    // Merge<int> mer;
-    // Quick<int> qui;
+    // srand(time(0));
+
+    Selection<int>   select;
+    // Insertion<int>   insert;
+    // Bubble<int>      bubble;
+    // Merge<int>       merge;
+    // Quick<int>       quick;
+    // Radix<int>       radix;
     
-    SortTest test;
-    test.run(sel);
-    test.run(ins);
+    SortTest<Selection<int>> test(select);
+    test.run();
+    // SortTest<Insertion<int>> test(insert);
+    // test.run();
 
 
     return 0;
 }
-
-// std::cout << "Time taken: " << std::fixed << sortTime << std::setprecision(9);
-// std::cout << " seconds" << std::endl;
-// return 0;

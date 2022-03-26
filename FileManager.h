@@ -4,16 +4,16 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <vector>
 
 class FileManager{
-    
     int numberGenerator(int low = 0, int high = 1e+6 + 1);
 public:
     FileManager() = default;
-    void fillCSV(int arrLen, int sorted[] = nullptr);
-    void readCSV(int unsorted[], std::string fileName);
-    // void fillRandCSV(int fileLen);
-    // void fillSortedCSV(int sorted[], int sortedLen);
+    void newRandCSV(int arrLen, int arr[] = nullptr);
+    void newSortedCSV(int arrLen, int arr[]);
+    void newStatsCSV(int arrLen, const std::vector<std::vector<std::string>>& stats, std::string algName = "Sortable");
+    void csvToArray(int unsorted[], std::string fileName);
 };
 
 #endif // FILE_MANAGER_H

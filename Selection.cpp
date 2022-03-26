@@ -1,12 +1,19 @@
 #include "Selection.h"
 
 template <class ItemType>
-Selection<ItemType>::Selection() :
-    comparisons(0),
-    swaps(0) {}
+Selection<ItemType>::Selection() {
+    initVars();
+}
+
+template <class ItemType>
+void Selection<ItemType>::initVars() {
+    comparisons = 0;
+    swaps = 0;
+}
 
 template <class ItemType>
 void Selection<ItemType>::sort(ItemType unsorted[], int unsortedLen) {
+    initVars();
     ItemType max;
     int maxIndex, last, index;
     for (last = unsortedLen - 1; last >= 1; last--) {
@@ -19,12 +26,17 @@ void Selection<ItemType>::sort(ItemType unsorted[], int unsortedLen) {
                 ++comparisons;
             }
         }
-        // ItemType* temp = unsorted[last];
-        // unsorted[last] = unsorted[maxIndex];
-        // unsorted[maxIndex] = temp;
         std::swap(unsorted[last], unsorted[maxIndex]);
         ++swaps;
     }
-    
-    
+}
+
+template <class ItemType>
+std::tuple<int, int> Selection<ItemType>::returnStats() const {
+    return std::make_tuple(comparisons, swaps);
+}
+
+template <class ItemType>
+std::string Selection<ItemType>::getSortName() const {
+    return "Selection";
 }

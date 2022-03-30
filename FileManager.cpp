@@ -1,8 +1,11 @@
 #include "FileManager.h"
 
-// FileManager::FileManager() {
 
-// }
+void FileManager::newRandArr(int arrLen, int arr[]) {
+    for (int i = 0; i < arrLen; i++) {
+        arr[i] = numberGenerator();
+    }
+}
 
 void FileManager::newRandCSV(int arrLen, int arr[]/*= nullptr*/) {
     std::string fileName = "unsorted" + std::to_string(arrLen) + ".csv";
@@ -73,4 +76,9 @@ void FileManager::csvToArray(int unsorted[], std::string fileName) {
 
 int FileManager::numberGenerator(int low, int high) {
     return rand() % high + low;
+}
+
+bool fileExists(const char* fileName) {
+    std::ifstream infile(fileName);
+    return infile.good();
 }

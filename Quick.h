@@ -13,6 +13,7 @@ class Quick : public SortInterface<ItemType> {
 public:
     Quick();
     void sort(int unsortedLen, ItemType unsorted[]);
+    void quickSort(int low, int high, ItemType arr[]);
     std::tuple<int, int> returnStats() const;
     std::string getSortName() const;
 };

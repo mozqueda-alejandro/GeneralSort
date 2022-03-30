@@ -12,27 +12,36 @@ void Quick<ItemType>::initVars() {
 
 template <class ItemType>
 void Quick<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {    
-    if (unsortedLen <= 1) {
-        return;
+    initVars();
+    quickSort(0, unsortedLen - 1, unsorted);
+}
+
+template <class ItemType>
+void Quick<ItemType>::quickSort(int low, int high, ItemType arr[]) {
+    if (low < high && low >= 0 && high >= 0) {
+        ItemType pivot = arr[low];
+        int first = low - 1;
+        int last = high + 1;
+        while (true) {
+            do {
+                ++first;
+                ++comparisons;
+            } while (arr[first] < pivot);
+
+            do {
+                --last;
+                ++comparisons;
+            } while (arr[last] > pivot);
+
+            if (first >= last) {
+                break;
+            }
+            std::swap(arr[first], arr[last]);
+            ++swaps;
+        }
+        quickSort(low, last, arr);
+        quickSort(last + 1, high, arr);
     }
-    int pivot = unsorted[0];
-    int left = 1;
-    int right = unsortedLen - 1;
-    while (left <= right) {
-        while (unsorted[left] < pivot) {
-            left++;
-        }
-        while (unsorted[right] > pivot) {
-            right--;
-        }
-        if (left <= right) {
-            std::swap(unsorted, left, right);
-            left++;
-            right--;
-        }
-    }
-    sort(left, unsorted);
-    sort(unsortedLen - left, unsorted + left);
 }
 
 template <class ItemType>

@@ -21,8 +21,8 @@
 namespace EnumData {
     enum Data {
         DATA_SIZE_1 = 1000,
-        DATA_SIZE_2 = 4,
-        DATA_SIZE_3 = 8,
+        DATA_SIZE_2 = 10000,
+        DATA_SIZE_3 = 100000,
     };
     static const Data All[] = { DATA_SIZE_1, DATA_SIZE_2, DATA_SIZE_3 };
 }
@@ -30,14 +30,14 @@ namespace EnumData {
 template<class SortType>
 class SortTest {
     SortType algorithm;
-    double totalRuntime;
-    int totalComparisons;
-    int totalSwaps;
+    double totalSortTime;
+    float totalComparisons;
+    float totalSwaps;
     int numSorts;
     static const int NUM_TESTS = 10;
 public:
     SortTest();
-    SortTest(SortType algorithm);
+    SortTest(const SortType& algorithm);
     void initVars();
     void run();
     double timeSort(int arrLen, int arr[]);

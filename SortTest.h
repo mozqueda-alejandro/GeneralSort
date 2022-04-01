@@ -34,13 +34,18 @@ class SortTest {
     float totalComparisons;
     float totalSwaps;
     int numSorts;
+    bool seedTests;
     static const int NUM_TESTS = 10;
-public:
-    SortTest();
-    SortTest(const SortType& algorithm);
+
     void initVars();
-    void run();
     double timeSort(int arrLen, int arr[]);
+    std::string formatFloat(std::string floatVal);
+    float approxMemUse();
+public:
+    SortTest() = default;
+    SortTest(const SortType& algorithm, bool seedTests = false);
+    ~SortTest() = default;
+    void run();
 };
 
 #include "SortTest.cpp"

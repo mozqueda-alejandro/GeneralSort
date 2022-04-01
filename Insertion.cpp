@@ -14,13 +14,14 @@ template <class ItemType>
 void Insertion<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {
     initVars();
     for (int ind = 1; ind < unsortedLen; ind++) {
-        int key = unsorted[ind];
+        ItemType key = unsorted[ind];
         int it = ind;
-        for ( ; it > 0 && unsorted[it - 1] > key; (--it, comparisons++)) {
+        for ( ; it > 0 && unsorted[it - 1] > key; --it) {
+            ++comparisons;
             ++swaps;
             unsorted[it] = unsorted[it - 1];
         }
-        ++swaps;
+        ++comparisons;
         unsorted[it] = key;
     }
 }

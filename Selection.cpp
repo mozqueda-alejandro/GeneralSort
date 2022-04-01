@@ -26,8 +26,10 @@ void Selection<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {
             }
             ++comparisons;
         }
-        std::swap(unsorted[last], unsorted[maxIndex]);
-        ++swaps;
+        if (last != maxIndex) {
+            std::swap(unsorted[last], unsorted[maxIndex]);
+            ++swaps;
+        }
     }
 }
 

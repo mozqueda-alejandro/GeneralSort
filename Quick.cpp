@@ -6,8 +6,8 @@ Quick<ItemType>::Quick() {
 }
 template <class ItemType>
 void Quick<ItemType>::initVars() {
-    comparisons = 0;
-    swaps = 0;
+    sortStats.comparisons = 0;
+    sortStats.swaps = 0;
 }
 
 template <class ItemType>
@@ -19,25 +19,26 @@ void Quick<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {
 template <class ItemType>
 void Quick<ItemType>::quickSort(int low, int high, ItemType arr[]) {
     if (low < high && low >= 0 && high >= 0) {
+        // Hoare Partition
         ItemType pivot = arr[low];
         int first = low - 1;
         int last = high + 1;
         while (true) {
             do {
                 ++first;
-                ++comparisons;
+                ++sortStats.comparisons;
             } while (arr[first] < pivot);
 
             do {
                 --last;
-                ++comparisons;
+                ++sortStats.comparisons;
             } while (arr[last] > pivot);
 
             if (first >= last) {
                 break;
             }
             std::swap(arr[first], arr[last]);
-            ++swaps;
+            ++sortStats.swaps;
         }
         quickSort(low, last, arr);
         quickSort(last + 1, high, arr);
@@ -45,8 +46,8 @@ void Quick<ItemType>::quickSort(int low, int high, ItemType arr[]) {
 }
 
 template <class ItemType>
-std::tuple<int, int> Quick<ItemType>::returnStats() const {
-    return std::make_tuple(comparisons, swaps);
+std::tuple<unsigned int, unsigned int> Quick<ItemType>::returnStats() const {
+    return std::make_tuple(sortStats.comparisons, sortStats.swaps);
 }
 
 template <class ItemType>

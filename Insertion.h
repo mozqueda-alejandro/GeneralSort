@@ -7,14 +7,14 @@
 
 template <class ItemType>
 class Insertion : public SortInterface<ItemType> {
-    int comparisons;
-    int swaps;
+    SortStats sortStats;
     void initVars();
 public:
     Insertion();
     void sort(int unsortedLen, ItemType unsorted[]);
-    std::tuple<int, int> returnStats() const;
+    std::tuple<unsigned int, unsigned int> returnStats() const;
     std::string getSortName() const;
+    typedef ItemType type;
 };
 
 #include "Insertion.cpp"

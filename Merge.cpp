@@ -6,8 +6,8 @@ Merge<ItemType>::Merge() {
 }
 template <class ItemType>
 void Merge<ItemType>::initVars() {
-    comparisons = 0;
-    swaps = 0;
+    sortStats.comparisons = 0;
+    sortStats.swaps = 0;
 }
 
 template <class ItemType>
@@ -17,8 +17,8 @@ void Merge<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {
 }
 
 template <class ItemType>
-std::tuple<int, int> Merge<ItemType>::returnStats() const {
-    return std::make_tuple(comparisons, swaps);
+std::tuple<unsigned int, unsigned int> Merge<ItemType>::returnStats() const {
+    return std::make_tuple(sortStats.comparisons, sortStats.swaps);
 }
 
 template <class ItemType>

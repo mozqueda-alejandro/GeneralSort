@@ -1,13 +1,17 @@
 #ifndef CONTAINER_H
 #define CONTAINER_H
 
-class Container
-{
+#include <iostream>
+
+class Container {
 private:
-    /* data */
+    int num1;
+    int num2;
+    std::string word;
 public:
-    Container(/* args */);
+    Container();
+    Container(int num1, int num2, std::string word);
     ~Container();
 };
 
-#endif
+#endif // CONTAINER_H

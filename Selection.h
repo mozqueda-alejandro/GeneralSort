@@ -7,14 +7,14 @@
 
 template <class ItemType>
 class Selection : public SortInterface<ItemType> {
-    int comparisons;
-    int swaps;
+    SortStats sortStats;
     void initVars();
 public:
     Selection();
     void sort(int unsortedLen, ItemType unsorted[]) override;
-    std::tuple<int, int> returnStats() const override;
-    std::string getSortName() const override;
+    std::tuple<unsigned int, unsigned int> returnStats() const;
+    std::string getSortName() const;
+    typedef ItemType type;
 };
 
 #include "Selection.cpp"

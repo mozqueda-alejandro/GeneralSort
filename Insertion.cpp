@@ -6,8 +6,8 @@ Insertion<ItemType>::Insertion() {
 }
 template <class ItemType>
 void Insertion<ItemType>::initVars() {
-    comparisons = 0;
-    swaps = 0;
+    sortStats.comparisons = 0;
+    sortStats.swaps = 0;
 }
 
 template <class ItemType>
@@ -17,18 +17,18 @@ void Insertion<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {
         ItemType key = unsorted[ind];
         int it = ind;
         for ( ; it > 0 && unsorted[it - 1] > key; --it) {
-            ++comparisons;
-            ++swaps;
+            ++sortStats.comparisons;
+            ++sortStats.swaps;
             unsorted[it] = unsorted[it - 1];
         }
-        ++comparisons;
+        ++sortStats.comparisons;
         unsorted[it] = key;
     }
 }
 
 template <class ItemType>
-std::tuple<int, int> Insertion<ItemType>::returnStats() const {
-    return std::make_tuple(comparisons, swaps);
+std::tuple<unsigned int, unsigned int> Insertion<ItemType>::returnStats() const {
+    return std::make_tuple(sortStats.comparisons, sortStats.swaps);
 }
 
 template <class ItemType>

@@ -7,15 +7,16 @@
 
 template <class ItemType>
 class Quick : public SortInterface<ItemType> {
-    int comparisons;
-    int swaps;
+    SortStats sortStats;
     void initVars();
+    void quickSort(int low, int high, ItemType arr[]);
+
 public:
     Quick();
     void sort(int unsortedLen, ItemType unsorted[]);
-    void quickSort(int low, int high, ItemType arr[]);
-    std::tuple<int, int> returnStats() const;
+    std::tuple<unsigned int, unsigned int> returnStats() const;
     std::string getSortName() const;
+    typedef ItemType type;
 };
 
 #include "Quick.cpp"

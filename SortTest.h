@@ -31,7 +31,7 @@ template<class SortType>
 class SortTest {
     SortType algorithm;
     double totalSortTime;
-    float totalComparisons;
+    long long totalComparisons;
     float totalSwaps;
     int numSorts;
     bool seedTests;
@@ -39,7 +39,7 @@ class SortTest {
 
     void initVars();
     double timeSort(int arrLen, int arr[]);
-    std::string formatFloat(std::string floatVal);
+    std::string formatFloat(const float& floatVal);
     float approxMemUse();
 public:
     SortTest() = default;
@@ -47,6 +47,8 @@ public:
     ~SortTest() = default;
     void run();
 };
+
+extern int NUM_RUNS;
 
 #include "SortTest.cpp"
 #endif // SORT_TEST_H

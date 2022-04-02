@@ -12,3 +12,4 @@ FileManager.o: FileManager.cpp FileManager.h
 clean:
 	clear
 	rm *.o *.csv driver
+	clear

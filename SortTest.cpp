@@ -1,24 +1,30 @@
 #include "SortTest.h"
 
-int NUM_RUNS = 0; // Fix global scope
+// int NUM_RUNS = 0;
 
 /**
- * @brief Construct a new SortTest object
+ * @brief Construct a new SortTest object, initializes total statistics, 
+ * creates new CSV files with random data if unseeded.
  * 
- * @param alg The sorting algorithm to be tested.
  * @param rand Determines if only one data set will be repeatedly run or if tests will be run with different data sets.
  */
-template<class SortType>
-SortTest<SortType>::SortTest(const SortType& alg, bool rand/* = false*/) : 
-    algorithm(alg),
+SortTest::SortTest(bool rand/* = false*/) : 
     seedTests(rand)
 {
     initVars();
-    ++NUM_RUNS;
+    if (!seedTests) {
+        FileManager fileManager;
+        for (const auto dataSize : EnumData::All) {
+            fileManager.newRandCSV(dataSize);
+        }   
+    }
+    // ++NUM_RUNS;
 }
 
-template<class SortType>
-void SortTest<SortType>::initVars() {
+/**
+ * @brief Initializes the variables used to keep track of algorithm performance.
+ */
+void SortTest::initVars() {
     totalSortTime = 0;
     totalComparisons = 0;
     totalSwaps = 0;
@@ -27,24 +33,26 @@ void SortTest<SortType>::initVars() {
 
 /**
  * @brief Runs all tests for the sorting algorithm.
+ * 
+ * @tparam algorithm The sorting algorithm to be tested.
  */
 template<class SortType>
-void SortTest<SortType>::run() {
-    float memUse = approxMemUse();
+void SortTest::run(SortType& algorithm) {
+    float memUse = approxMemUse<SortType>();
     if (memUse > 5) {
         std::cout << "Memory use of " << memUse << " MB is too high for this test.\n";
-        return;
+        return; // QUESTION: Should this be a return or an exception?
     }
 
     std::vector<std::vector<std::string>> stats;
     stats.push_back(std::vector<std::string>{"Sort Type", "Sort Time", "Comparisons", "Swaps"});
 
     for (const auto dataSize : EnumData::All) {
-        FileManager fileManager(NUM_TESTS, seedTests); // Must be instantiated everytime average stats are collected
+        FileManager fileManager = (seedTests) ? FileManager(NUM_TESTS) : FileManager();
         int constArr[dataSize];
         int arr[dataSize];
         if (!seedTests) {
-            std::string unsortedCSV = fileManager.newRandCSV(dataSize); // Creates ONE random data set per data size
+            std::string unsortedCSV = "unsorted" + std::to_string(dataSize) + ".csv"; // QUESTION: Formatting might change so should this call a file name generator in FileManager?
             fileManager.csvToArray(constArr, unsortedCSV);
         }
 
@@ -53,14 +61,14 @@ void SortTest<SortType>::run() {
             for (int j = 0; j < NUM_TESTS; j++) {
                 if (i == 0) {
                     if (seedTests) {
-                        std::string unsortedCSV = fileManager.newRandCSV(dataSize, algorithm.getSortName()); // Creates a unique random data set per test (seeded)
+                        std::string unsortedCSV = fileManager.newRandCSV(dataSize, algorithm.getSortName());
                         fileManager.csvToArray(arr, unsortedCSV);
                     } else {
                         std::copy(constArr, constArr + dataSize, arr);
                     }                    
                 }
-                double sortTime = timeSort(dataSize, arr);
-                unsigned int comparisons, swaps; // Unisigned required in case of integer overflow
+                double sortTime = timeSort<SortType>(dataSize, arr, algorithm);
+                unsigned int comparisons, swaps;
                 std::tie(comparisons, swaps) = algorithm.returnStats();
                 stats.push_back(std::vector<std::string>{sortType, std::to_string(sortTime), std::to_string(comparisons), std::to_string(swaps)});
                 totalSortTime += sortTime;
@@ -91,31 +99,12 @@ void SortTest<SortType>::run() {
 }
 
 /**
- * @brief Runs the sort algorithm on the given array.
- * 
- * @param arrLen The size of the array.
- * @param arr The array to sort.
- * @return double Runtime needed to sort the array.
- */
-template<class SortType>
-double SortTest<SortType>::timeSort(int arrLen, int arr[]) {
-    auto start = std::chrono::high_resolution_clock::now();
-    std::ios_base::sync_with_stdio(false);
-    
-    algorithm.sort(arrLen, arr);
-    
-    auto end = std::chrono::high_resolution_clock::now();
-    return std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() * 1e-9;
-}
-
-/**
  * @brief Formats a float to have no trailing zeroes or decimals.
  * 
  * @param floatVal The number to format.
  * @return std::string The formatted number.
  */
-template<class SortType>
-std::string SortTest<SortType>::formatFloat(const float& floatVal) {
+std::string SortTest::formatFloat(const float& floatVal) {
     std::string floatStr = std::to_string(floatVal);
     if(floatStr.find('.') != std::string::npos) {
         floatStr = floatStr.substr(0, floatStr.find_last_not_of('0') + 1);
@@ -127,12 +116,31 @@ std::string SortTest<SortType>::formatFloat(const float& floatVal) {
 }
 
 /**
+ * @brief Runs the sort algorithm on the given array.
+ * 
+ * @param arrLen The size of the array.
+ * @param arr The array to sort.
+ * @tparam algorithm The sorting algorithm to be used.
+ * @return double Runtime needed to sort the array.
+ */
+template<class SortType>
+double SortTest::timeSort(int arrLen, int arr[], SortType& algorithm) {
+    auto start = std::chrono::high_resolution_clock::now();
+    std::ios_base::sync_with_stdio(false);
+    
+    algorithm.sort(arrLen, arr);
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() * 1e-9;
+}
+
+/**
  * @brief Calculates the approximate memory use of testing an algorithm.
  * 
  * @return float Approximate memory use in MB.
  */
 template<class SortType>
-float SortTest<SortType>::approxMemUse() {
+float SortTest::approxMemUse() {
     float memUse = 0.0f; // in bytes
     int objTypeSize = sizeof(typename SortType::type);
     for (const auto dataSize : EnumData::All) {
@@ -147,3 +155,17 @@ float SortTest<SortType>::approxMemUse() {
     }
     return memUse / 1024 / 1024;
 }
+
+// /**
+//  * @brief Generates a random array of ints. 
+//  * Used to make data sets for testing in {@link SortTest} without
+//  * writing to a CSV file.
+//  * 
+//  * @param arrLen The length of the array.
+//  * @param arr The array to be filled.
+//  */
+// void SortTest::newRandArr(int arrLen, int arr[]) {
+//     for (int i = 0; i < arrLen; i++) {
+//         arr[i] = numberGenerator();
+//     }
+// }

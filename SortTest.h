@@ -20,35 +20,37 @@
 
 namespace EnumData {
     enum Data {
-        DATA_SIZE_1 = 1000,
-        DATA_SIZE_2 = 10000,
+        DATA_SIZE_1 = 8,
+        DATA_SIZE_2 = 16,
         DATA_SIZE_3 = 100000,
     };
-    static const Data All[] = { DATA_SIZE_1, DATA_SIZE_2, DATA_SIZE_3 };
+    static const Data All[] = { DATA_SIZE_1, DATA_SIZE_2/*, DATA_SIZE_3*/ };
 }
 
-template<class SortType>
 class SortTest {
-    SortType algorithm;
     double totalSortTime;
     long long totalComparisons;
     float totalSwaps;
     int numSorts;
     bool seedTests;
-    static const int NUM_TESTS = 10;
+    static const int NUM_TESTS = 2;
 
     void initVars();
-    double timeSort(int arrLen, int arr[]);
     std::string formatFloat(const float& floatVal);
+    void newRandArr(int arrLen, int arr[]); // Helper function for improved performance
+
+    template<class SortType>
+    double timeSort(int arrLen, int arr[], SortType& algorithm);
+    template<class SortType>
     float approxMemUse();
 public:
-    SortTest() = default;
-    SortTest(const SortType& algorithm, bool seedTests = false);
-    ~SortTest() = default;
-    void run();
+    SortTest(bool seedTests = false);
+
+    template<class SortType>
+    void run(SortType& algorithm);
 };
 
-extern int NUM_RUNS;
+// extern int NUM_RUNS;
 
 #include "SortTest.cpp"
 #endif // SORT_TEST_H

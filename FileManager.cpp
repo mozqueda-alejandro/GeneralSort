@@ -1,29 +1,20 @@
 #include "FileManager.h"
 
+
+FileManager::FileManager() : 
+    allowDups(false) 
+{}
+
 /**
  * @brief Construct a new FileManager object
  * 
  * @param numTests Constant passed from {@link SortTest}
- * @param duplicates Variable passed from 'seedTests' in {@link SortTest}
+ * @param duplicates Variable passed from 'seedTests' in {@link SortTest}.
  */
-FileManager::FileManager(int numTests, bool duplicates) : 
+FileManager::FileManager(int numTests) : 
     NUM_TESTS(numTests),
-    allowDups(duplicates) 
+    allowDups(true) 
 {}
-
-/**
- * @brief Generates a random array of ints. 
- * Used to make data sets for testing in {@link SortTest} without
- * writing to a CSV file.
- * 
- * @param arrLen The length of the array.
- * @param arr The array to be filled.
- */
-void FileManager::newRandArr(int arrLen, int arr[]) {
-    for (int i = 0; i < arrLen; i++) {
-        arr[i] = numberGenerator();
-    }
-}
 
 /**
  * @brief Creates a new CSV file with random data.
@@ -41,9 +32,9 @@ void FileManager::newRandArr(int arrLen, int arr[]) {
  */
 std::string FileManager::newRandCSV(int arrLen, std::string algName/*= "<algorithm>"*/) {
     std::string fileName;
-    static int testNum = -1;
-    testNum = (testNum + 1) % NUM_TESTS;
     if (allowDups) {
+        static int testNum = -1;
+        testNum = (testNum + 1) % NUM_TESTS;
         if (uniqueFirstFile && testNum == 0) {
             fileName = fileNameGenerator(algName, arrLen, "unsorted");
         } else {
@@ -52,11 +43,10 @@ std::string FileManager::newRandCSV(int arrLen, std::string algName/*= "<algorit
     } else {
         fileName = fileNameGenerator("unsorted", arrLen);
     }
-    // DOES NOT WORK FOR UNSEEDED TESTS
-    // WILL GENERATE REPEATED FILES FOR DIFFERENT ALGORITHMS
-    // if (fileExists(fileName.c_str())) {
-    //     throw std::runtime_error("Unsorted file " + fileName + " already exists.");
-    // }
+    if (fileExists(fileName.c_str())) {
+        std::cout << "Unsorted file " << fileName << " already exists." << std::endl;
+        return "";
+    }
     std::ofstream unsortedcsv(fileName, std::ios::trunc);
     for (int i = 0; i < arrLen; i++) {
         int temp = numberGenerator();
@@ -87,8 +77,8 @@ std::string FileManager::newRandCSV(int arrLen, std::string algName/*= "<algorit
  */
 void FileManager::newSortedCSV(int arrLen, int arr[], std::string algName/*= "<algorithm>"*/) {
     std::string fileName;
-    static int testNum = -1;
     if (allowDups) {
+        static int testNum = -1;
         testNum = (testNum + 1) % NUM_TESTS;
         if (uniqueFirstFile && testNum == 0) {
             fileName = fileNameGenerator(algName, arrLen, "sorted");
@@ -98,9 +88,10 @@ void FileManager::newSortedCSV(int arrLen, int arr[], std::string algName/*= "<a
     } else {
         fileName = fileNameGenerator("sorted", arrLen);
     }
-    // if (fileExists(fileName.c_str())) {
-    //     throw std::runtime_error("Sorted file " + fileName + " already exists.");
-    // }
+    if (fileExists(fileName.c_str())) {
+        std::cout << "Sorted file " << fileName << " already exists." << std::endl;
+        return;
+    }
     std::ofstream sortedcsv(fileName, std::ios::trunc);
     for (int i = 0; i < arrLen; i++) {
         sortedcsv << arr[i];

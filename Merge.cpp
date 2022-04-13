@@ -1,27 +1,20 @@
 #include "Merge.h"
 
-template <class ItemType>
-Merge<ItemType>::Merge() {
-    initVars();
-}
-template <class ItemType>
-void Merge<ItemType>::initVars() {
-    sortStats.comparisons = 0;
-    sortStats.swaps = 0;
-}
+template<class T>
+Merge<T>::Merge() : SortBase<T>() {}
 
-template <class ItemType>
-void Merge<ItemType>::sort(int unsortedLen, ItemType unsorted[]) {
-    
+template<class T>
+void Merge<T>::sort()
+{
+    comparisons = 0;
+    swaps = 0;
+    sortTime = 0;
+    std::cout << "In the merge sort" << std::endl;
+    // TODO: Implement Merge Sort
     
 }
 
-template <class ItemType>
-std::tuple<unsigned int, unsigned int> Merge<ItemType>::returnStats() const {
-    return std::make_tuple(sortStats.comparisons, sortStats.swaps);
-}
-
-template <class ItemType>
-std::string Merge<ItemType>::getSortName() const {
+template<class T>
+inline std::string Merge<T>::getSortName() const {
     return "Merge";
 }

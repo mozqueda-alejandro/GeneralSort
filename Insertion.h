@@ -1,20 +1,19 @@
 #ifndef INSERTION_H
 #define INSERTION_H
 
-#include <iostream>
-#include <array>
-#include "SortInterface.h"
+#include "SortBase.h"
 
-template <class ItemType>
-class Insertion : public SortInterface<ItemType> {
-    SortStats sortStats;
-    void initVars();
+template<class T>
+class Insertion : public SortBase<T>
+{
+    using SortBase<T>::comparisons;
+    using SortBase<T>::swaps;
+    using SortBase<T>::sortTime;
 public:
     Insertion();
-    void sort(int unsortedLen, ItemType unsorted[]);
-    std::tuple<unsigned int, unsigned int> returnStats() const;
-    std::string getSortName() const;
-    typedef ItemType type;
+    void sort();
+    inline std::string getSortName() const;
+    typedef T type;
 };
 
 #include "Insertion.cpp"

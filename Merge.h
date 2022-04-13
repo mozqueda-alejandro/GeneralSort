@@ -1,20 +1,19 @@
 #ifndef MERGE_H
 #define MERGE_H
 
-#include <iostream>
-#include <array>
-#include "SortInterface.h"
+#include "SortBase.h"
 
-template <class ItemType>
-class Merge : public SortInterface<ItemType> {
-    SortStats sortStats;
-    void initVars();
+template<class T>
+class Merge : public SortBase<T>
+{
+    using SortBase<T>::comparisons;
+    using SortBase<T>::swaps;
+    using SortBase<T>::sortTime;
 public:
     Merge();
-    void sort(int unsortedLen, ItemType unsorted[]);
-    std::tuple<unsigned int, unsigned int> returnStats() const;
-    std::string getSortName() const;
-    typedef ItemType type;
+    void sort();
+    inline std::string getSortName() const;
+    typedef T type;
 };
 
 #include "Merge.cpp"

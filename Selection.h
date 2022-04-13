@@ -1,20 +1,19 @@
 #ifndef SELECTION_H
 #define SELECTION_H
 
-#include <iostream>
-#include <array>
-#include "SortInterface.h"
+#include "SortBase.h"
 
-template <class ItemType>
-class Selection : public SortInterface<ItemType> {
-    SortStats sortStats;
-    void initVars();
+template <class T>
+class Selection : public SortBase<T>
+{
+    using SortBase<T>::comparisons;
+    using SortBase<T>::swaps;
+    using SortBase<T>::sortTime;
 public:
     Selection();
-    void sort(int unsortedLen, ItemType unsorted[]) override;
-    std::tuple<unsigned int, unsigned int> returnStats() const;
-    std::string getSortName() const;
-    typedef ItemType type;
+    void sort();
+    inline std::string getSortName() const;
+    typedef T type;
 };
 
 #include "Selection.cpp"
